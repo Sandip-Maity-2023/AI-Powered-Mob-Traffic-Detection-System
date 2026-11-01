@@ -1,0 +1,614 @@
+https://www.kaggle.com/code/sandipmaity725/projectx/edit
+
+https://chatgpt.com/c/6ae6bfeb-6cbc-83ee-b7c0-3055a3862473
+
+
+PS E:\AI-Powered-Mob-Traffic-Detection-System> 
+>> >> AI-Mob-Detection-System/backend/app/api/__init__.py \
+>> >> AI-Mob-Detection-System/backend/app/api/router.py \
+>> >> AI-Mob-Detection-System/backend/app/api/v1/__init__.py \
+>> : The term '>>' is not 
+recognized as the name of a 
+cmdlet, function, script file, 
+or operable program. Check the 
+spelling of the name, or if a 
+path was included, verify that 
+the path is correct and try 
+again.
+At line:2 char:1
++ >> AI-Mob-Detection-System/back
+end/app/api/__init__.py \
++ ~~
+    + CategoryInfo          : Ob 
+   jectNotFound: (>>:String) []  
+  , CommandNotFoundException
+    + FullyQualifiedErrorId : Co 
+   mmandNotFoundException
+ 
+>> : The term '>>' is not 
+recognized as the name of a 
+cmdlet, function, script file, 
+or operable program. Check the 
+spelling of the name, or if a 
+path was included, verify that 
+the path is correct and try 
+again.
+At line:3 char:1
++ >> AI-Mob-Detection-System/back
+end/app/api/router.py \
++ ~~
+    + CategoryInfo          : Ob 
+   jectNotFound: (>>:String) []  
+  , CommandNotFoundException
+    + FullyQualifiedErrorId : Co 
+   mmandNotFoundException
+ 
+>> : The term '>>' is not 
+recognized as the name of a 
+cmdlet, function, script file, 
+or operable program. Check the 
+spelling of the name, or if a 
+path was included, verify that 
+the path is correct and try 
+again.
+At line:4 char:1
++ >> AI-Mob-Detection-System/back
+end/app/api/v1/__init__.py \
++ ~~
+    + CategoryInfo          : Ob 
+   jectNotFound: (>>:String) []  
+  , CommandNotFoundException
+    + FullyQualifiedErrorId : Co 
+   mmandNotFoundException
+ 
+PS E:\AI-Powered-Mob-Traffic-Detection-System> $dirs = @(
+>> "AI-Mob-Detection-System/backend/app/api/v1",
+>> "AI-Mob-Detection-System/backend/app/core",
+>> "AI-Mob-Detection-System/backend/app/models",
+>> "AI-Mob-Detection-System/backend/app/schemas",
+>> "AI-Mob-Detection-System/backend/app/services",
+>> "AI-Mob-Detection-System/backend/app/ai",
+>> "AI-Mob-Detection-System/backend/app/utils",
+>> "AI-Mob-Detection-System/backend/artifacts",
+>> "AI-Mob-Detection-System/backend/uploads",
+>> "AI-Mob-Detection-System/backend/logs",
+>> "AI-Mob-Detection-System/backend/tests",
+>> "AI-Mob-Detection-System/frontend/public",
+>> "AI-Mob-Detection-System/frontend/src/assets",
+>> "AI-Mob-Detection-System/frontend/src/components/common",
+>> "AI-Mob-Detection-System/frontend/src/components/dashboard",
+>> "AI-Mob-Detection-System/frontend/src/components/cameras",
+>> "AI-Mob-Detection-System/frontend/src/components/alerts",
+>> "AI-Mob-Detection-System/frontend/src/components/charts",
+>> "AI-Mob-Detection-System/frontend/src/pages",
+>> "AI-Mob-Detection-System/frontend/src/layouts",
+>> "AI-Mob-Detection-System/frontend/src/services",
+>> "AI-Mob-Detection-System/frontend/src/hooks",
+>> "AI-Mob-Detection-System/frontend/src/context",
+>> "AI-Mob-Detection-System/frontend/src/utils",
+>> "AI-Mob-Detection-System/docs"
+>> )
+>> 
+>> $files = @(
+>> "AI-Mob-Detection-System/backend/app/__init__.py",
+>> "AI-Mob-Detection-System/backend/app/main.py",
+>> "AI-Mob-Detection-System/backend/app/api/__init__.py",
+>> "AI-Mob-Detection-System/backend/app/api/router.py",
+>> "AI-Mob-Detection-System/backend/app/api/v1/__init__.py",
+>> "AI-Mob-Detection-System/backend/app/api/v1/alerts.py",
+>> "AI-Mob-Detection-System/backend/app/api/v1/cameras.py",
+>> "AI-Mob-Detection-System/backend/app/api/v1/detection.py",
+>> "AI-Mob-Detection-System/backend/app/api/v1/analytics.py",
+>> "AI-Mob-Detection-System/backend/app/api/v1/websocket.py",
+>> "AI-Mob-Detection-System/backend/app/core/config.py",
+>> "AI-Mob-Detection-System/backend/app/core/security.py",
+>> "AI-Mob-Detection-System/backend/app/core/logging.py",
+>> "AI-Mob-Detection-System/backend/app/models/database.py",
+>> "AI-Mob-Detection-System/backend/app/models/user.py",
+>> "AI-Mob-Detection-System/backend/app/models/camera.py",
+>> "AI-Mob-Detection-System/backend/app/models/alert.py",
+>> "AI-Mob-Detection-System/backend/app/schemas/detection.py",
+>> "AI-Mob-Detection-System/backend/app/schemas/camera.py",
+>> "AI-Mob-Detection-System/backend/app/schemas/alert.py",
+>> "AI-Mob-Detection-System/backend/app/services/video_service.py",
+>> "AI-Mob-Detection-System/backend/app/services/camera_service.py",
+>> "AI-Mob-Detection-System/backend/app/services/detection_service.py",
+>> "AI-Mob-Detection-System/backend/app/services/alert_service.py",
+>> "AI-Mob-Detection-System/backend/app/services/websocket_manager.py",
+>> "AI-Mob-Detection-System/backend/app/ai/model_loader.py",
+>> "AI-Mob-Detection-System/backend/app/ai/predictor.py",
+>> "AI-Mob-Detection-System/backend/app/ai/preprocessing.py",
+>> "AI-Mob-Detection-System/backend/app/ai/feature_extractor.py",
+>> "AI-Mob-Detection-System/backend/app/utils/file_handler.py",
+>> "AI-Mob-Detection-System/backend/app/utils/timestamps.py",
+>> "AI-Mob-Detection-System/backend/artifacts/gradient_boosting_model.pkl",
+>> "AI-Mob-Detection-System/backend/artifacts/model_config.json",
+>> "AI-Mob-Detection-System/backend/tests/test_api.py",
+>> "AI-Mob-Detection-System/backend/tests/test_prediction.py",
+>> "AI-Mob-Detection-System/backend/requirements.txt",
+>> "AI-Mob-Detection-System/backend/.env.example",
+>> "AI-Mob-Detection-System/frontend/public/favicon.ico",
+>> "AI-Mob-Detection-System/frontend/src/pages/Dashboard.jsx",
+>> "AI-Mob-Detection-System/frontend/src/pages/LiveMonitoring.jsx",
+>> "AI-Mob-Detection-System/frontend/src/pages/Detection.jsx",
+>> "AI-Mob-Detection-System/frontend/src/pages/Alerts.jsx",
+>> "AI-Mob-Detection-System/frontend/src/pages/Analytics.jsx",
+>> "AI-Mob-Detection-System/frontend/src/pages/Settings.jsx",
+>> "AI-Mob-Detection-System/frontend/src/layouts/DashboardLayout.jsx",
+>> "AI-Mob-Detection-System/frontend/src/services/api.js",
+>> "AI-Mob-Detection-System/frontend/src/services/detectionService.js",
+>> "AI-Mob-Detection-System/frontend/src/services/websocketService.js",
+>> "AI-Mob-Detection-System/frontend/src/hooks/useAlerts.js",
+>> "AI-Mob-Detection-System/frontend/src/context/AuthContext.jsx",
+>> "AI-Mob-Detection-System/frontend/src/utils/formatDate.js",
+>> "AI-Mob-Detection-System/frontend/src/App.jsx",
+>> "AI-Mob-Detection-System/frontend/src/main.jsx",
+>> "AI-Mob-Detection-System/frontend/src/index.css",
+>> "AI-Mob-Detection-System/frontend/package.json",
+>> "AI-Mob-Detection-System/frontend/.env.example",
+>> "AI-Mob-Detection-System/docs/architecture.md",
+>> "AI-Mob-Detection-System/docs/api-documentation.md",
+>> "AI-Mob-Detection-System/docs/model-documentation.md",
+>> "AI-Mob-Detection-System/.gitignore",
+>> "AI-Mob-Detection-System/README.md",
+>> "AI-Mob-Detection-System/docker-compose.yml"
+>> )
+>> 
+>> foreach ($dir in $dirs) {
+>>     New-Item -ItemType Directory -Force -Path $dir | Out-Null
+>> }
+>> 
+>> foreach ($file in $files) {
+>>     New-Item -ItemType File -Force -Path $file | Out-Null
+>> }
+>> 
+>> Write-Host "Project structure created successfully!"
+Project structure created successfully!
+PS E:\AI-Powered-Mob-Traffic-Detection-System> $dirs = @(
+>> "AI-Mob-Detection-System/backend/app/api/v1",
+>> "AI-Mob-Detection-System/backend/app/core",
+>> "AI-Mob-Detection-System/backend/app/models",
+>> "AI-Mob-Detection-System/backend/app/schemas",
+>> "AI-Mob-Detection-System/backend/app/services",
+>> "AI-Mob-Detection-System/backend/app/ai",
+>> "AI-Mob-Detection-System/backend/app/utils",
+>> "AI-Mob-Detection-System/backend/artifacts",
+>> "AI-Mob-Detection-System/backend/uploads",
+>> "AI-Mob-Detection-System/backend/logs",
+>> "AI-Mob-Detection-System/backend/tests",
+>> "AI-Mob-Detection-System/frontend/public",
+>> "AI-Mob-Detection-System/frontend/src/assets",
+>> "AI-Mob-Detection-System/frontend/src/components/common",
+>> "AI-Mob-Detection-System/frontend/src/components/dashboard",
+>> "AI-Mob-Detection-System/frontend/src/components/cameras",
+>> "AI-Mob-Detection-System/frontend/src/components/alerts",
+>> "AI-Mob-Detection-System/frontend/src/components/charts",
+>> "AI-Mob-Detection-System/frontend/src/pages",
+>> "AI-Mob-Detection-System/frontend/src/layouts",
+>> "AI-Mob-Detection-System/frontend/src/services",
+>> "AI-Mob-Detection-System/frontend/src/hooks",
+>> "AI-Mob-Detection-System/frontend/src/context",
+>> "AI-Mob-Detection-System/frontend/src/utils",
+>> "AI-Mob-Detection-System/docs"
+>> )
+>> 
+>> $files = @(
+>> "AI-Mob-Detection-System/backend/app/__init__.py",
+>> "AI-Mob-Detection-System/backend/app/main.py",
+>> "AI-Mob-Detection-System/backend/app/api/__init__.py",
+>> "AI-Mob-Detection-System/backend/app/api/router.py",
+>> "AI-Mob-Detection-System/backend/app/api/v1/__init__.py",
+>> "AI-Mob-Detection-System/backend/app/api/v1/alerts.py",
+>> "AI-Mob-Detection-System/backend/app/api/v1/cameras.py",
+>> "AI-Mob-Detection-System/backend/app/api/v1/detection.py",
+>> "AI-Mob-Detection-System/backend/app/api/v1/analytics.py",
+>> "AI-Mob-Detection-System/backend/app/api/v1/websocket.py",
+>> "AI-Mob-Detection-System/backend/app/core/config.py",
+>> "AI-Mob-Detection-System/backend/app/core/security.py",
+>> "AI-Mob-Detection-System/backend/app/core/logging.py",
+>> "AI-Mob-Detection-System/backend/app/models/database.py",
+>> "AI-Mob-Detection-System/backend/app/models/user.py",
+>> "AI-Mob-Detection-System/backend/app/models/camera.py",
+>> "AI-Mob-Detection-System/backend/app/models/alert.py",
+>> "AI-Mob-Detection-System/backend/app/schemas/detection.py",
+>> "AI-Mob-Detection-System/backend/app/schemas/camera.py",
+>> "AI-Mob-Detection-System/backend/app/schemas/alert.py",
+>> "AI-Mob-Detection-System/backend/app/services/video_service.py",
+>> "AI-Mob-Detection-System/backend/app/services/camera_service.py",
+>> "AI-Mob-Detection-System/backend/app/services/detection_service.py",
+>> "AI-Mob-Detection-System/backend/app/services/alert_service.py",
+>> "AI-Mob-Detection-System/backend/app/services/websocket_manager.py",
+>> "AI-Mob-Detection-System/backend/app/ai/model_loader.py",
+>> "AI-Mob-Detection-System/backend/app/ai/predictor.py",
+>> "AI-Mob-Detection-System/backend/app/ai/preprocessing.py",
+>> "AI-Mob-Detection-System/backend/app/ai/feature_extractor.py",
+>> "AI-Mob-Detection-System/backend/app/utils/file_handler.py",
+>> "AI-Mob-Detection-System/backend/app/utils/timestamps.py",
+>> "AI-Mob-Detection-System/backend/artifacts/gradient_boosting_model.pkl",
+>> "AI-Mob-Detection-System/backend/artifacts/model_config.json",
+>> "AI-Mob-Detection-System/backend/tests/test_api.py",
+>> "AI-Mob-Detection-System/backend/tests/test_prediction.py",
+>> "AI-Mob-Detection-System/backend/requirements.txt",
+>> "AI-Mob-Detection-System/backend/.env.example",
+>> "AI-Mob-Detection-System/frontend/public/favicon.ico",
+>> "AI-Mob-Detection-System/frontend/src/pages/Dashboard.jsx",
+>> "AI-Mob-Detection-System/frontend/src/pages/LiveMonitoring.jsx",
+>> "AI-Mob-Detection-System/frontend/src/pages/Detection.jsx",
+>> "AI-Mob-Detection-System/frontend/src/pages/Alerts.jsx",
+>> "AI-Mob-Detection-System/frontend/src/pages/Analytics.jsx",
+>> "AI-Mob-Detection-System/frontend/src/pages/Settings.jsx",
+>> "AI-Mob-Detection-System/frontend/src/layouts/DashboardLayout.jsx",
+>> "AI-Mob-Detection-System/frontend/src/services/api.js",
+>> "AI-Mob-Detection-System/frontend/src/services/detectionService.js",
+>> "AI-Mob-Detection-System/frontend/src/services/websocketService.js",
+>> "AI-Mob-Detection-System/frontend/src/hooks/useAlerts.js",
+>> "AI-Mob-Detection-System/frontend/src/context/AuthContext.jsx",
+>> "AI-Mob-Detection-System/frontend/src/utils/formatDate.js",
+>> "AI-Mob-Detection-System/frontend/src/App.jsx",
+>> "AI-Mob-Detection-System/frontend/src/main.jsx",
+>> "AI-Mob-Detection-System/frontend/src/index.css",
+>> "AI-Mob-Detection-System/frontend/package.json",
+>> "AI-Mob-Detection-System/frontend/.env.example",
+>> "AI-Mob-Detection-System/docs/architecture.md",
+>> "AI-Mob-Detection-System/docs/api-documentation.md",
+>> "AI-Mob-Detection-System/docs/model-documentation.md",
+>> "AI-Mob-Detection-System/.gitignore",
+>> "AI-Mob-Detection-System/README.md",
+>> "AI-Mob-Detection-System/docker-compose.yml"
+>> )
+>> 
+>> foreach ($dir in $dirs) {
+>>     New-Item -ItemType Directory -Force -Path $dir | Out-Null
+>> }
+>> 
+>> foreach ($file in $files) {
+>>     New-Item -ItemType File -Force -Path $file | Out-Null
+>> }
+>> 
+>> Write-Host "Project structure created successfully!"
+Project structure created successfully!
+PS E:\AI-Powered-Mob-Traffic-Detection-System> tree /A /F AI-Mob-Detection-System
+Folder PATH listing for volume New Volume
+Volume serial number is 1C75-F4E8
+E:\AI-POWERED-MOB-TRAFFIC-DETECTION-SYSTEM\AI-MOB-DETECTION-SYSTEM
+|   .gitignore
+|   docker-compose.yml
+|   README.md
+|   
++---backend
+|   |   .env.example
+|   |   requirements.txt
+|   |   
+|   +---app
+|   |   |   main.py
+|   |   |   __init__.py
+|   |   |   
+|   |   +---ai
+|   |   |       feature_extractor.py
+|   |   |       model_loader.py
+|   |   |       predictor.py
+|   |   |       preprocessing.py
+|   |   |       
+|   |   +---api
+|   |   |   |   router.py
+|   |   |   |   __init__.py
+|   |   |   |   
+|   |   |   \---v1
+|   |   |           alerts.py
+|   |   |           analytics.py
+|   |   |           cameras.py
+|   |   |           detection.py
+|   |   |           websocket.py
+|   |   |           __init__.py
+|   |   |           
+|   |   +---core
+|   |   |       config.py
+|   |   |       logging.py
+|   |   |       security.py
+|   |   |       
+|   |   +---models
+|   |   |       alert.py
+|   |   |       camera.py
+|   |   |       database.py
+|   |   |       user.py
+|   |   |       
+|   |   +---schemas
+|   |   |       alert.py
+|   |   |       camera.py
+|   |   |       detection.py
+|   |   |       
+|   |   +---services
+|   |   |       alert_service.py
+|   |   |       camera_service.py
+|   |   |       detection_service.py
+|   |   |       video_service.py
+|   |   |       websocket_manager.py
+|   |   |       
+|   |   \---utils
+|   |           file_handler.py
+|   |           timestamps.py
+|   |           
+|   +---artifacts
+|   |       gradient_boosting_model.pkl
+|   |       model_config.json
+|   |       
+|   +---logs
+|   +---tests
+|   |       test_api.py
+|   |       test_prediction.py
+|   |       
+|   \---uploads
++---docs
+|       api-documentation.md
+|       architecture.md
+|       model-documentation.md
+|       
+\---frontend
+    |   .env.example
+    |   package.json
+    |   
+    +---public
+    |       favicon.ico
+    |       
+    \---src
+        |   App.jsx
+        |   index.css
+        |   main.jsx
+        |   
+        +---assets
+        +---components
+        |   +---alerts
+        |   +---cameras
+        |   +---charts
+        |   +---common
+        |   \---dashboard
+        +---context
+        |       AuthContext.jsx
+        |       
+        +---hooks
+        |       useAlerts.js
+        |       
+        +---layouts
+        |       DashboardLayout.jsx
+        |       
+        +---pages
+        |       Alerts.jsx
+        |       Analytics.jsx
+        |       Dashboard.jsx
+        |       Detection.jsx
+        |       LiveMonitoring.jsx
+        |       Settings.jsx
+        |       
+        +---services
+        |       api.js
+        |       detectionService.js
+        |       websocketService.js
+        |       
+        \---utils
+                formatDate.js
+                
+PS E:\AI-Powered-Mob-Traffic-Detection-System> Move-Item .\AI-Mob-Detection-System\* . -Force
+PS E:\AI-Powered-Mob-Traffic-Detection-System> Move-Item .\AI-Mob-Detection-System\.gitignore . -Force
+>> 
+Move-Item : Cannot find path 'E:\
+AI-Powered-Mob-Traffic-Detection-
+System\AI-Mob-Detection-System\.g
+itignore' because it does not 
+exist.
+At line:1 char:1
++ Move-Item .\AI-Mob-Detection-Sy
+stem\.gitignore . -Force
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : Ob 
+   jectNotFound: (E:\AI-Powered  
+  -M...stem\.gitignore:String)   
+  [Move-Item], ItemNotFoundEx    
+ception
+    + FullyQualifiedErrorId : Pa 
+   thNotFound,Microsoft.PowerSh  
+  ell.Commands.MoveItemCommand
+ 
+PS E:\AI-Powered-Mob-Traffic-Detection-System> Remove-Item .\AI-Mob-Detection-System -Recurse -Force
+PS E:\AI-Powered-Mob-Traffic-Detection-System> tree /A /F
+Folder PATH listing for volume New Volume
+Volume serial number is 1C75-F4E8
+E:.
+|   .gitignore
+|   docker-compose.yml
+|   LICENSE
+|   README.md
+|   
++---backend
+|   |   .env.example
+|   |   requirements.txt
+|   |   
+|   +---app
+|   |   |   main.py
+|   |   |   __init__.py
+|   |   |   
+|   |   +---ai
+|   |   |       feature_extractor.py
+|   |   |       model_loader.py
+|   |   |       predictor.py
+|   |   |       preprocessing.py
+|   |   |       
+|   |   +---api
+|   |   |   |   router.py
+|   |   |   |   __init__.py
+|   |   |   |   
+|   |   |   \---v1
+|   |   |           alerts.py
+|   |   |           analytics.py
+|   |   |           cameras.py
+|   |   |           detection.py
+|   |   |           websocket.py
+|   |   |           __init__.py
+|   |   |           
+|   |   +---core
+|   |   |       config.py
+|   |   |       logging.py
+|   |   |       security.py
+|   |   |       
+|   |   +---models
+|   |   |       alert.py
+|   |   |       camera.py
+|   |   |       database.py
+|   |   |       user.py
+|   |   |       
+|   |   +---schemas
+|   |   |       alert.py
+|   |   |       camera.py
+|   |   |       detection.py
+|   |   |       
+|   |   +---services
+|   |   |       alert_service.py
+|   |   |       camera_service.py
+|   |   |       detection_service.py
+|   |   |       video_service.py
+|   |   |       websocket_manager.py
+|   |   |       
+|   |   \---utils
+|   |           file_handler.py
+|   |           timestamps.py
+|   |           
+|   +---artifacts
+|   |       gradient_boosting_model.pkl
+|   |       model_config.json
+|   |       
+|   +---logs
+|   +---tests
+|   |       test_api.py
+|   |       test_prediction.py
+|   |       
+|   \---uploads
++---docs
+|       api-documentation.md
+|       architecture.md
+|       model-documentation.md
+|       
+\---frontend
+    |   .env.example
+    |   package.json
+    |   
+    +---public
+    |       favicon.ico
+    |       
+    \---src
+        |   App.jsx
+        |   index.css
+        |   main.jsx
+        |   
+        +---assets
+        +---components
+        |   +---alerts
+        |   +---cameras
+        |   +---charts
+        |   +---common
+        |   \---dashboard
+        +---context
+        |       AuthContext.jsx
+        |       
+        +---hooks
+        |       useAlerts.js
+        |       
+        +---layouts
+        |       DashboardLayout.jsx
+        |       
+        +---pages
+        |       Alerts.jsx
+        |       Analytics.jsx
+        |       Dashboard.jsx
+        |       Detection.jsx
+        |       LiveMonitoring.jsx
+        |       Settings.jsx
+        |       
+        +---services
+        |       api.js
+        |       detectionService.js
+        |       websocketService.js
+        |       
+        \---upython --version
+>> node --versionormatDate.js
+>> npm --version
+>> git --version-Mob-Traffic-Detection-System> 
+Python 3.12.1
+v22.18.0
+10.9.3
+git version 2.43.0.windows.1
+PS E:\AI-Powered-Mob-Traffic-Detection-System> cd frontend
+PS E:\AI-Powered-Mob-Traffic-Detection-System\frontend> npm create vite@latest . -- --template react
+Need to install the following packages:
+create-vite@9.3.3
+Ok to proceed? (y) 
+
+
+> npx
+> cva . --template react
+
+
+create-vite v9.3.3
+
+│
+◇  Current directory is not empty. Please 
+│  choose how to proceed:
+│  Remove existing files and continue
+│
+◇  Which linter to use?
+│  Oxlint
+│
+◇  Install with npm and start now?
+│  Yes
+│
+◇  Scaffolding project in E:\AI-Powered-Mob-Traffic-Detection-System\frontend...
+│
+◇  Installing dependencies with npm...
+
+added 24 packages, and audited 25 packages in 1m
+
+9 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+│
+◇  Starting dev server...
+
+> frontend@0.0.0 dev
+> vite
+
+
+  VITE v8.3.5  ready in 707 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+PS E:\AI-Powered-Mob-Traffic-Detection-System\frontend> npm install axios react-router-dom recharts lucide-react
+
+added 71 packages, and audited 96 packages in 45s
+
+17 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS E:\AI-Powered-Mob-Traffic-Detection-System\frontend> npm install tailwindcss @tailwindcss/vite
+
+added 17 packages, and audited 113 packages in 18s
+
+20 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS E:\AI-Powered-Mob-Traffic-Detection-System\frontend> npm install tailwindcss @tailwindcss/vite
+
+up to date, audited 113 packages in 6s
+
+20 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+PS E:\AI-Powered-Mob-Traffic-Detection-System\frontend> 
+
+
+
+
+
