@@ -1,0 +1,6 @@
+{
+  "name": "SentraCity@360 AI Smart City Command Center",
+  "description": "Futuristic AI-driven city infrastructure monitoring, automated road pothole detection, dynamic traffic management, and real-time public safety dispatch.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
