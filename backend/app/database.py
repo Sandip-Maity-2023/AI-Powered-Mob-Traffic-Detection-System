@@ -2,7 +2,7 @@ import os
 import json
 import uuid
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from threading import Lock
 from sqlalchemy import create_engine, event
 from sqlalchemy.orm import declarative_base, sessionmaker
@@ -59,7 +59,7 @@ class ResilientCollection:
         if "_id" not in doc:
             doc["_id"] = str(uuid.uuid4())
         if "created_at" not in doc:
-            doc["created_at"] = datetime.utcnow().isoformat()
+            doc["created_at"] = datetime.now(timezone.utc).isoformat()
         
         with self.parent.lock:
             data = self.parent._read()

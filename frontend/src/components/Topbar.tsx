@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/clerk-react';
-import { Search, Bell, Shield, ShieldAlert, Cpu, Sparkles, LogOut, Settings2, Power, AlertTriangle, Sun, Moon, Volume2, VolumeX, Flame } from 'lucide-react';
+import { Search, Bell, Shield, ShieldAlert, Cpu, Sparkles, LogOut, Settings2, Power, AlertTriangle, Sun, Moon, Volume2, VolumeX, Flame, UserCheck } from 'lucide-react';
 import { Incident } from '../types';
 import { INCIDENTS_DATA } from '../data';
 import { alarmEngine } from '../utils/soundAlarm';
+import { useAuth } from '../context/AuthContext';
 
 interface TopbarProps {
   onSearch: (query: string) => void;
@@ -20,9 +20,11 @@ export default function Topbar({
   systemAlertsCount,
   triggerSystemSimulate,
   theme = 'dark',
-  toggleTheme
-  , username, onLogout
+  toggleTheme,
+  username,
+  onLogout
 }: TopbarProps) {
+  const { user, isAuthenticated, logout, openAuthModal } = useAuth();
   const [searchVal, setSearchVal] = useState('');
   const [time, setTime] = useState('');
   const [showNotifications, setShowNotifications] = useState(false);
@@ -113,22 +115,34 @@ export default function Topbar({
           </button>
         )}
 
-        <SignedOut>
-          <SignInButton mode="modal">
-            <button className="flex h-9 items-center rounded-xl border border-cyan-500/20 bg-cyan-500/10 px-3 text-[11px] font-mono font-semibold text-cyan-400 transition-colors hover:bg-cyan-500/20">
-              SIGN IN
+        {/* JSON Web Token Authentication Status / Action */}
+        {isAuthenticated ? (
+          <div className="flex items-center gap-2 border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 rounded-xl text-xs font-mono">
+            <div className="flex flex-col text-right">
+              <span className="font-bold text-white text-[11px] leading-tight">
+                {user?.full_name || user?.username}
+              </span>
+              <span className="text-[9px] text-cyan-400 font-mono tracking-wider">
+                JWT VERIFIED
+              </span>
+            </div>
+            <button
+              onClick={logout}
+              className="ml-1 p-1 rounded-lg hover:bg-white/10 text-slate-400 hover:text-red-400 transition-colors"
+              title="Sign Out / Revoke Session"
+            >
+              <LogOut className="h-3.5 w-3.5" />
             </button>
-          </SignInButton>
-          <SignUpButton mode="modal">
-            <button className="flex h-9 items-center rounded-xl border border-white/10 bg-white/5 px-3 text-[11px] font-mono font-semibold text-slate-300 transition-colors hover:bg-white/10">
-              SIGN UP
-            </button>
-          </SignUpButton>
-        </SignedOut>
-
-        <SignedIn>
-          <UserButton afterSignOutUrl="/" />
-        </SignedIn>
+          </div>
+        ) : (
+          <button
+            onClick={() => openAuthModal('Sign in with JSON Web Token to access secure command functions and save video evidence.')}
+            className="flex h-9 items-center gap-1.5 rounded-xl border border-cyan-500/30 bg-cyan-500/10 hover:bg-cyan-500/20 px-3 text-[11px] font-mono font-semibold text-cyan-400 transition-colors"
+          >
+            <Shield className="h-3.5 w-3.5 text-cyan-400" />
+            <span>SIGN IN (JWT)</span>
+          </button>
+        )}
 
         {/* Tactical Emergency Alarm Siren Toggle */}
         <button

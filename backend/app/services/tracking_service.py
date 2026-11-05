@@ -1,6 +1,6 @@
 import math
 import random
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Dict, Any, Optional
 from sqlalchemy.orm import Session
 from backend.app.models import EmergencyUnit, Incident, Camera
@@ -21,7 +21,7 @@ class TrackingService:
                 unit.longitude += d_lng
                 unit.speed_kmh = round(random.uniform(25.0, 55.0), 1)
                 unit.heading = round(random.uniform(0, 360), 1)
-                unit.last_ping = datetime.utcnow()
+                unit.last_ping = datetime.now(timezone.utc)
             elif unit.status == "dispatched" and unit.assigned_incident_id:
                 incident = db.query(Incident).filter(Incident.id == unit.assigned_incident_id).first()
                 if incident:
@@ -38,7 +38,7 @@ class TrackingService:
                     else:
                         unit.status = "on_scene"
                         unit.speed_kmh = 0.0
-                    unit.last_ping = datetime.utcnow()
+                    unit.last_ping = datetime.now(timezone.utc)
         db.commit()
 
     def dispatch_unit_to_incident(
@@ -56,7 +56,7 @@ class TrackingService:
         unit.status = "dispatched"
         unit.assigned_incident_id = incident_id
         unit.speed_kmh = 65.0
-        unit.last_ping = datetime.utcnow()
+        unit.last_ping = datetime.now(timezone.utc)
 
         incident.status = "dispatched"
         incident.time_ago = "Dispatched just now"

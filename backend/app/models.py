@@ -1,8 +1,37 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import Column, String, Integer, Float, DateTime, Text, ForeignKey
 from sqlalchemy.orm import relationship
 from backend.app.database import Base
+
+class User(Base):
+    __tablename__ = "users"
+
+    id = Column(String(64), primary_key=True, default=lambda: f"USR-{uuid.uuid4().hex[:6].upper()}")
+    username = Column(String(64), unique=True, index=True, nullable=False)
+    hashed_password = Column(String(256), nullable=False)
+    full_name = Column(String(128), default="Tactical Operator")
+    role = Column(String(64), default="Field Dispatcher") # Officer, Dispatcher, Commander, Admin
+    department = Column(String(128), default="Smart City Authorities")
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+    saved_evidences = relationship("SavedVideoEvidence", back_populates="user_rel")
+
+class SavedVideoEvidence(Base):
+    __tablename__ = "saved_video_evidences"
+
+    id = Column(String(64), primary_key=True, default=lambda: f"EVD-{uuid.uuid4().hex[:6].upper()}")
+    user_id = Column(String(64), ForeignKey("users.id"), nullable=False)
+    title = Column(String(256), nullable=False)
+    video_url = Column(String(512), nullable=False)
+    violence_probability = Column(Float, default=0.0)
+    severity = Column(String(32), default="normal")
+    class_name = Column(String(128), default="Surveillance Clip")
+    notes = Column(Text, nullable=True)
+    camera_id = Column(String(64), nullable=True)
+    saved_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+    user_rel = relationship("User", back_populates="saved_evidences")
 
 class Camera(Base):
     __tablename__ = "cameras"
@@ -15,9 +44,9 @@ class Camera(Base):
     longitude = Column(Float, nullable=False, default=77.5946)
     status = Column(String(32), default="active") # active, warning, offline
     stream_url = Column(String(256), nullable=True)
-    ai_model = Column(String(128), default="YOLOv8 + GradientBoosting")
+    ai_model = Column(String(128), default="CNN-LSTM + OpenCV")
     fps = Column(Float, default=30.0)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
     incidents = relationship("Incident", back_populates="camera_rel")
 
@@ -30,11 +59,11 @@ class Incident(Base):
     latitude = Column(Float, nullable=False, default=12.9716)
     longitude = Column(Float, nullable=False, default=77.5946)
     severity = Column(String(32), nullable=False, default="warning") # critical, warning, normal
-    timestamp = Column(DateTime, default=datetime.utcnow, index=True)
+    timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc), index=True)
     time_ago = Column(String(64), default="Just now")
     status = Column(String(32), default="active") # active, dispatched, resolved
     camera_id = Column(String(64), ForeignKey("cameras.id"), nullable=True)
-    detector_name = Column(String(128), default="GradientBoosting Violence Detector")
+    detector_name = Column(String(128), default="PyTorch CNN-LSTM Violence Model")
     details = Column(Text, nullable=True)
     ai_confidence = Column(Float, default=95.0)
     predicted_class = Column(Integer, default=0)
@@ -57,7 +86,7 @@ class EmergencyUnit(Base):
     speed_kmh = Column(Float, default=0.0)
     status = Column(String(32), default="patrolling") # patrolling, dispatched, on_scene, idle
     assigned_incident_id = Column(String(64), nullable=True)
-    last_ping = Column(DateTime, default=datetime.utcnow)
+    last_ping = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
 class AlertLog(Base):
     __tablename__ = "alert_logs"
@@ -70,8 +99,7 @@ class AlertLog(Base):
     target_departments = Column(Text, nullable=False) # JSON list e.g. ["Traffic Police", "Emergency Response Teams"]
     channels = Column(Text, nullable=False) # JSON list e.g. ["AUDIO_ALARM", "SMS", "RADIO", "PUSH"]
     status = Column(String(32), default="delivered") # sent, delivered, acknowledged
-    dispatched_at = Column(DateTime, default=datetime.utcnow)
+    dispatched_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
     acknowledged_by = Column(String(128), nullable=True)
 
     incident_rel = relationship("Incident", back_populates="alerts")
-

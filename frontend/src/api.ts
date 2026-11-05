@@ -9,6 +9,11 @@ import { INCIDENTS_DATA } from './data';
 
 const API_BASE = (import.meta as any).env?.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api';
 
+function getAuthHeaders(): Record<string, string> {
+  const token = localStorage.getItem('sentracity_jwt_token');
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
 export const apiClient = {
   async getSystemHealth() {
     try {
@@ -268,6 +273,38 @@ export const apiClient = {
     } catch {
       return { is_sounding: false };
     }
+  },
+
+  async saveVideoEvidence(data: {
+    title: string;
+    video_url: string;
+    violence_probability: number;
+    severity: string;
+    class_name: string;
+    notes?: string;
+    camera_id?: string;
+  }) {
+    const res = await fetch(`${API_BASE}/vision/save-video-evidence`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeaders()
+      },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || 'Authentication required to save video evidence');
+    }
+    return await res.json();
+  },
+
+  async getSavedEvidences() {
+    const res = await fetch(`${API_BASE}/vision/saved-evidences`, {
+      headers: { ...getAuthHeaders() }
+    });
+    if (!res.ok) throw new Error('Failed to retrieve saved evidences');
+    return await res.json();
   }
 };
 

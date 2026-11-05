@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from backend.app.config import settings
 from backend.app.seed_data import seed_database
 from backend.app.routers import (
+    auth,
     predict,
     vision,
     incidents,
@@ -15,8 +16,8 @@ from backend.app.routers import (
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    description="Smart City Mission Control & Incident Prediction Engine powered by FastAPI, YOLOv8, OpenCV and GradientBoostingClassifier",
-    version="4.2.0"
+    description="Smart City Mission Control & Incident Prediction Engine powered by FastAPI, PyTorch CNN-LSTM, YOLOv8, OpenCV and GradientBoostingClassifier",
+    version="4.3.0"
 )
 
 # Configure CORS
@@ -33,6 +34,7 @@ os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")
 
 # Include Routers
+app.include_router(auth.router, prefix=settings.API_V1_STR)
 app.include_router(predict.router, prefix=settings.API_V1_STR)
 app.include_router(vision.router, prefix=settings.API_V1_STR)
 app.include_router(incidents.router, prefix=settings.API_V1_STR)
@@ -52,13 +54,14 @@ def root_status():
         "service": settings.PROJECT_NAME,
         "docs": "/docs",
         "endpoints": {
+            "auth": f"{settings.API_V1_STR}/auth/login",
             "prediction": f"{settings.API_V1_STR}/predict/model",
             "computer_vision": f"{settings.API_V1_STR}/vision/detect-frame",
             "video_upload": f"{settings.API_V1_STR}/vision/upload-video",
+            "save_evidence_jwt": f"{settings.API_V1_STR}/vision/save-video-evidence",
             "incidents": f"{settings.API_V1_STR}/incidents",
             "alerts_alarm": f"{settings.API_V1_STR}/alerts",
             "location_tracking": f"{settings.API_V1_STR}/tracking/locations",
             "system_health": f"{settings.API_V1_STR}/system/health"
         }
     }
-

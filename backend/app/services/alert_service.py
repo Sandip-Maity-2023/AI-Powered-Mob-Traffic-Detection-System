@@ -1,6 +1,6 @@
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Dict, Any, Optional
 from sqlalchemy.orm import Session
 from backend.app.models import AlertLog, Incident
@@ -58,7 +58,7 @@ class AlertService:
             target_departments=json.dumps(target_departments),
             channels=json.dumps(channels),
             status="delivered",
-            dispatched_at=datetime.utcnow()
+            dispatched_at=datetime.now(timezone.utc)
         )
         db.add(alert_record)
         db.commit()
@@ -75,7 +75,7 @@ class AlertService:
                 "severity": severity,
                 "departments": target_departments,
                 "channels": channels,
-                "dispatched_at": datetime.utcnow().isoformat(),
+                "dispatched_at": datetime.now(timezone.utc).isoformat(),
                 "simulated_sms_receipts": [f"+1-555-ALERT-{i}" for i in range(len(target_departments))]
             })
         except Exception as e:
@@ -89,7 +89,7 @@ class AlertService:
             "severity": severity,
             "departments": target_departments,
             "channels": channels,
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         })
         if len(self.recent_broadcasts) > 50:
             self.recent_broadcasts.pop()

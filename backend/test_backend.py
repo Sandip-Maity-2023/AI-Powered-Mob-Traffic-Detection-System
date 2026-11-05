@@ -1,5 +1,6 @@
 import os
 import sys
+import uuid
 import unittest
 import numpy as np
 import base64
@@ -27,6 +28,12 @@ from backend.app.routers.incidents import get_incidents, create_incident, get_in
 from backend.app.routers.alerts import get_alerts, broadcast_alert, get_siren_status, trigger_alarm_siren, silence_alarm_siren
 from backend.app.routers.tracking import get_all_locations, dispatch_unit
 from backend.app.routers.system import get_system_health
+from backend.app.routers.auth import register, login, demo_login, RegisterRequest, LoginRequest
+from backend.app.routers.vision import save_video_evidence, list_saved_evidences, SaveEvidenceRequest
+from backend.app.services.pytorch_violence_service import pytorch_violence_service
+from backend.app.services.auth_service import get_current_user, create_access_token
+from fastapi import HTTPException
+from fastapi.security import HTTPAuthorizationCredentials
 
 class ComprehensiveBackendTest(unittest.TestCase):
     @classmethod
@@ -182,6 +189,104 @@ class ComprehensiveBackendTest(unittest.TestCase):
         )
         self.assertEqual(dispatched.status, "dispatched")
         self.assertEqual(dispatched.assigned_incident_id, target_incident["id"])
+
+    def test_07_pytorch_violence_detection_model(self):
+        """Verify PyTorch MobileNetV2 + CNN-LSTM model inference on frame sequences."""
+        self.assertIsNotNone(pytorch_violence_service.model, "best_violence_model.pth should be loaded")
+        self.assertIsNotNone(pytorch_violence_service.extractor, "MobileNetV2 feature extractor should be initialized")
+
+        # Create dummy synthetic frames (128x128 BGR)
+        dummy_frame = np.zeros((128, 128, 3), dtype=np.uint8)
+        cv2.putText(dummy_frame, "TEST", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2)
+
+        # Feed sequence into sliding window
+        res = None
+        for _ in range(8):
+            res = pytorch_violence_service.predict_frame_sequence("CAM-UNIT-TEST", dummy_frame)
+
+        self.assertIsNotNone(res)
+        self.assertIn("violence_probability", res)
+        self.assertIn("is_violence", res)
+        self.assertIn("severity", res)
+        self.assertIn("alert_message", res)
+        self.assertIn("target_departments", res)
+        self.assertIn("trigger_alarm", res)
+        self.assertEqual(res["model_architecture"], "MobileNetV2 + CNN-LSTM (best_violence_model.pth)")
+        self.assertAlmostEqual(res["model_f1"], 0.973, places=2)
+
+    def test_08_jwt_authentication_and_authorization(self):
+        """Verify user registration, JWT generation, validation, and demo login."""
+        unique_user = f"officer_salim_{uuid.uuid4().hex[:6]}"
+        # 1. Register new officer
+        reg_req = RegisterRequest(
+            username=unique_user,
+            password="SecurePassword999!",
+            full_name="Salim Khan",
+            role="Tactical Officer",
+            department="Emergency Response Teams"
+        )
+        reg_res = register(reg_req, self.db)
+        self.assertIn("access_token", reg_res)
+        self.assertEqual(reg_res["user"].username, unique_user)
+
+        # 2. Duplicate registration should be rejected
+        with self.assertRaises(HTTPException) as cm:
+            register(reg_req, self.db)
+        self.assertEqual(cm.exception.status_code, 400)
+
+        # 3. Successful login with credentials
+        login_res = login(LoginRequest(username=unique_user, password="SecurePassword999!"), self.db)
+        jwt_token = login_res["access_token"]
+        self.assertTrue(len(jwt_token) > 20)
+
+        # 4. Failed login with wrong password
+        with self.assertRaises(HTTPException) as cm:
+            login(LoginRequest(username=unique_user, password="WrongPassword"), self.db)
+        self.assertEqual(cm.exception.status_code, 401)
+
+        # 5. Validate JWT token using get_current_user dependency
+        creds = HTTPAuthorizationCredentials(scheme="Bearer", credentials=jwt_token)
+        curr_user = get_current_user(creds, self.db)
+        self.assertEqual(curr_user.username, unique_user)
+
+        # 6. Invalid token rejection
+        bad_creds = HTTPAuthorizationCredentials(scheme="Bearer", credentials="invalid.token.here")
+        with self.assertRaises(HTTPException) as cm:
+            get_current_user(bad_creds, self.db)
+        self.assertEqual(cm.exception.status_code, 401)
+
+        # 7. Demo login for Officer Ahamed
+        demo_res = demo_login(self.db)
+        self.assertIn("access_token", demo_res)
+        self.assertEqual(demo_res["user"].username, "ahamed")
+
+    def test_09_protected_video_evidence_archival(self):
+        """Verify video evidence can only be saved and retrieved by authenticated officers with JWT."""
+        # Authenticate as demo officer Ahamed
+        demo_res = demo_login(self.db)
+        token = demo_res["access_token"]
+        creds = HTTPAuthorizationCredentials(scheme="Bearer", credentials=token)
+        user = get_current_user(creds, self.db)
+
+        # Save video evidence with valid JWT
+        evidence_req = SaveEvidenceRequest(
+            title="Surveillance Incident - Sector 4",
+            video_url="/uploads/test_clip_01.mp4",
+            violence_probability=0.88,
+            severity="critical",
+            class_name="Violent Physical Brawl",
+            notes="Automated unit test evidence archival.",
+            camera_id="CAM-802"
+        )
+        save_res = save_video_evidence(evidence_req, current_user=user, db=self.db)
+        self.assertTrue(save_res["success"])
+        self.assertEqual(save_res["saved_by"], "ahamed")
+
+        # List saved evidences for officer
+        evidences = list_saved_evidences(current_user=user, db=self.db)
+        self.assertGreater(len(evidences), 0)
+        saved_titles = [e.title for e in evidences]
+        self.assertIn("Surveillance Incident - Sector 4", saved_titles)
 
 if __name__ == "__main__":
     unittest.main()

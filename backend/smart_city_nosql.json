@@ -17,6 +17,30 @@
       "status": "verified",
       "_id": "4620f028-c97f-4fc6-9629-0d1fbaa84b2c",
       "created_at": "2026-11-02T17:17:20.407627"
+    },
+    {
+      "test_metric": 42.5,
+      "status": "verified",
+      "_id": "7b21df1b-5ce4-4d55-8f7f-81f41d99bdbb",
+      "created_at": "2026-11-05T01:50:25.288268"
+    },
+    {
+      "test_metric": 42.5,
+      "status": "verified",
+      "_id": "a8888e8a-0f7d-42bc-b75f-30147f24259e",
+      "created_at": "2026-11-05T01:52:07.101710"
+    },
+    {
+      "test_metric": 42.5,
+      "status": "verified",
+      "_id": "ee6bbd03-bf7c-489a-ae37-421535b083af",
+      "created_at": "2026-11-05T01:53:17.148671"
+    },
+    {
+      "test_metric": 42.5,
+      "status": "verified",
+      "_id": "5723d4ab-8b81-4d20-8db7-9f14f82181d5",
+      "created_at": "2026-11-05T02:08:59.183243+00:00"
     }
   ],
   "incident_audit_trail": [
@@ -49,6 +73,46 @@
       "timestamp": "2026-11-02T17:17:20.531165",
       "_id": "e7945922-ef2a-4bc9-afaa-b764a9cbaf5f",
       "created_at": "2026-11-02T17:17:20.531165"
+    },
+    {
+      "action": "CREATE",
+      "incident_id": "INC-7E5900",
+      "type": "Crowd Flashpoint Alert",
+      "location": "Sector 2, Transit Concourse C",
+      "severity": "critical",
+      "timestamp": "2026-11-05T01:50:25.460902",
+      "_id": "1e84ac5a-1aa7-4f10-8457-6121459fe2f4",
+      "created_at": "2026-11-05T01:50:25.460902"
+    },
+    {
+      "action": "CREATE",
+      "incident_id": "INC-4B583A",
+      "type": "Crowd Flashpoint Alert",
+      "location": "Sector 2, Transit Concourse C",
+      "severity": "critical",
+      "timestamp": "2026-11-05T01:52:07.222988",
+      "_id": "a41472da-5cd1-4c6e-a15f-fa1ecf9dd220",
+      "created_at": "2026-11-05T01:52:07.223514"
+    },
+    {
+      "action": "CREATE",
+      "incident_id": "INC-313331",
+      "type": "Crowd Flashpoint Alert",
+      "location": "Sector 2, Transit Concourse C",
+      "severity": "critical",
+      "timestamp": "2026-11-05T01:53:17.327175",
+      "_id": "e41271f5-ee0c-4664-ac31-ee9a16f3bc63",
+      "created_at": "2026-11-05T01:53:17.327175"
+    },
+    {
+      "action": "CREATE",
+      "incident_id": "INC-EBD781",
+      "type": "Crowd Flashpoint Alert",
+      "location": "Sector 2, Transit Concourse C",
+      "severity": "critical",
+      "timestamp": "2026-11-05T02:08:59.401940+00:00",
+      "_id": "c10b2a27-2437-48e0-b343-33e27bec6e94",
+      "created_at": "2026-11-05T02:08:59.401940+00:00"
     }
   ],
   "alert_telemetry": [
@@ -120,6 +184,98 @@
       ],
       "_id": "d46aad27-649d-47eb-8b7c-70b75806c6ef",
       "created_at": "2026-11-02T17:17:20.540915"
+    },
+    {
+      "alert_id": "ALT-311C9D",
+      "incident_id": null,
+      "title": "HIGH PRIORITY: Traffic Congestion Gridlock",
+      "message": "Multiple vehicle stalls blocking Nexus Parkway.",
+      "severity": "warning",
+      "departments": [
+        "Traffic Police",
+        "Municipal Corporations"
+      ],
+      "channels": [
+        "AUDIO_ALARM",
+        "SMS",
+        "PUSH_NOTIFICATION"
+      ],
+      "dispatched_at": "2026-11-05T01:50:25.472365",
+      "simulated_sms_receipts": [
+        "+1-555-ALERT-0",
+        "+1-555-ALERT-1"
+      ],
+      "_id": "20c96ae1-fd40-4d99-9359-d8060000903c",
+      "created_at": "2026-11-05T01:50:25.472365"
+    },
+    {
+      "alert_id": "ALT-8F77BE",
+      "incident_id": null,
+      "title": "HIGH PRIORITY: Traffic Congestion Gridlock",
+      "message": "Multiple vehicle stalls blocking Nexus Parkway.",
+      "severity": "warning",
+      "departments": [
+        "Traffic Police",
+        "Municipal Corporations"
+      ],
+      "channels": [
+        "AUDIO_ALARM",
+        "SMS",
+        "PUSH_NOTIFICATION"
+      ],
+      "dispatched_at": "2026-11-05T01:52:07.233240",
+      "simulated_sms_receipts": [
+        "+1-555-ALERT-0",
+        "+1-555-ALERT-1"
+      ],
+      "_id": "f11af8c8-f302-46fe-b997-abe2685131e8",
+      "created_at": "2026-11-05T01:52:07.233772"
+    },
+    {
+      "alert_id": "ALT-AE2208",
+      "incident_id": null,
+      "title": "HIGH PRIORITY: Traffic Congestion Gridlock",
+      "message": "Multiple vehicle stalls blocking Nexus Parkway.",
+      "severity": "warning",
+      "departments": [
+        "Traffic Police",
+        "Municipal Corporations"
+      ],
+      "channels": [
+        "AUDIO_ALARM",
+        "SMS",
+        "PUSH_NOTIFICATION"
+      ],
+      "dispatched_at": "2026-11-05T01:53:17.347691",
+      "simulated_sms_receipts": [
+        "+1-555-ALERT-0",
+        "+1-555-ALERT-1"
+      ],
+      "_id": "85e2a784-bf28-4cbc-9a49-868a88c60f8f",
+      "created_at": "2026-11-05T01:53:17.347691"
+    },
+    {
+      "alert_id": "ALT-9EEAFB",
+      "incident_id": null,
+      "title": "HIGH PRIORITY: Traffic Congestion Gridlock",
+      "message": "Multiple vehicle stalls blocking Nexus Parkway.",
+      "severity": "warning",
+      "departments": [
+        "Traffic Police",
+        "Municipal Corporations"
+      ],
+      "channels": [
+        "AUDIO_ALARM",
+        "SMS",
+        "PUSH_NOTIFICATION"
+      ],
+      "dispatched_at": "2026-11-05T02:08:59.421581+00:00",
+      "simulated_sms_receipts": [
+        "+1-555-ALERT-0",
+        "+1-555-ALERT-1"
+      ],
+      "_id": "2e712a97-eb8b-45b7-8bf8-a6d80dc2d6f8",
+      "created_at": "2026-11-05T02:08:59.421581+00:00"
     }
   ]
 }

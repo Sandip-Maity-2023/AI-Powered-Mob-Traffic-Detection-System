@@ -2,7 +2,12 @@ import json
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
 from backend.app.database import engine, SessionLocal, Base
-from backend.app.models import Camera, Incident, EmergencyUnit, AlertLog
+from backend.app.models import Camera, Incident, EmergencyUnit, AlertLog, User, SavedVideoEvidence
+import hashlib
+
+def hash_pw(pw: str) -> str:
+    salt = "sentracity_salt_2026"
+    return hashlib.sha256(f"{salt}_{pw}".encode("utf-8")).hexdigest()
 
 def seed_database():
     """Seed comprehensive initial data for Smart City Command Center."""
@@ -10,7 +15,17 @@ def seed_database():
     db: Session = SessionLocal()
 
     try:
-        # 1. Seed Cameras if empty
+        # 0. Seed Default Operator User if empty
+        if db.query(User).count() == 0:
+            demo_user = User(
+                username="ahamed",
+                hashed_password=hash_pw("admin123"),
+                full_name="Officer Ahamed",
+                role="Tactical Dispatcher",
+                department="Smart City Command"
+            )
+            db.add(demo_user)
+            db.commit()
         if db.query(Camera).count() == 0:
             cameras = [
                 Camera(

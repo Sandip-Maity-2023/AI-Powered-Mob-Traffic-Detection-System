@@ -1,5 +1,5 @@
 from typing import List, Optional
-from datetime import datetime
+from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from backend.app.database import get_db, get_nosql_collection
@@ -43,7 +43,7 @@ def create_incident(
         class_name=req.class_name,
         video_evidence_url=req.video_evidence_url,
         status="active",
-        timestamp=datetime.utcnow(),
+        timestamp=datetime.now(timezone.utc),
         time_ago="Just now"
     )
     db.add(inc)
@@ -58,7 +58,7 @@ def create_incident(
         "type": inc.type,
         "location": inc.location,
         "severity": inc.severity,
-        "timestamp": datetime.utcnow().isoformat()
+        "timestamp": datetime.now(timezone.utc).isoformat()
     })
 
     return inc

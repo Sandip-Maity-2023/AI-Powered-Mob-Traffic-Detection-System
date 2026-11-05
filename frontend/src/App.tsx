@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { SignedIn, SignedOut, SignInButton, SignUpButton } from '@clerk/clerk-react';
+import { AuthProvider } from './context/AuthContext';
+import AuthModal from './components/AuthModal';
 import { ActiveTab } from './types';
 import Sidebar from './components/Sidebar';
 import Topbar from './components/Topbar';
@@ -278,75 +279,49 @@ export default function App() {
   };
 
   return (
-    <>
-      <SignedOut>
-        <div className="flex h-screen w-screen items-center justify-center bg-[#050508] px-6">
-          <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#0b0b0f] p-8 shadow-2xl">
-            <p className="text-[10px] uppercase tracking-[0.3em] text-cyan-400">Secure access</p>
-            <h1 className="mt-2 text-2xl font-black uppercase tracking-tight text-white">Sentracity Command Center</h1>
-            <p className="mt-3 text-sm text-slate-400">
-              Sign in or create an account to access the live smart-city dashboard.
-            </p>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <SignInButton mode="modal">
-                <button className="flex-1 rounded-xl bg-cyan-500 px-4 py-3 text-sm font-bold text-black transition hover:opacity-90">
-                  Sign in
-                </button>
-              </SignInButton>
-              <SignUpButton mode="modal">
-                <button className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/10">
-                  Create account
-                </button>
-              </SignUpButton>
-            </div>
-            <p className="mt-4 text-[11px] text-slate-500">Clerk will handle your authentication flow once the publishable key is configured.</p>
-          </div>
-        </div>
-      </SignedOut>
+    <AuthProvider>
+      <AuthModal />
+      <div className={`flex h-screen w-screen overflow-hidden ${theme === 'light' ? 'bg-[#f1f5f9] text-slate-700 light-theme' : 'bg-[#050508] text-slate-300'} antialiased font-sans select-none`} id="sentracity-command-center-root">
+        {/* Background neon ambient glows */}
+        <div className="absolute top-[-20%] left-[-10%] h-[600px] w-[600px] rounded-full bg-cyan-500/5 blur-[150px] pointer-events-none" />
+        <div className="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-purple-500/5 blur-[150px] pointer-events-none" />
 
-      <SignedIn>
-        <div className={`flex h-screen w-screen overflow-hidden ${theme === 'light' ? 'bg-[#f1f5f9] text-slate-700 light-theme' : 'bg-[#050508] text-slate-300'} antialiased font-sans select-none`} id="sentracity-command-center-root">
-          {/* Background neon ambient glows */}
-          <div className="absolute top-[-20%] left-[-10%] h-[600px] w-[600px] rounded-full bg-cyan-500/5 blur-[150px] pointer-events-none" />
-          <div className="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-purple-500/5 blur-[150px] pointer-events-none" />
+        {/* 1. SIDEBAR DECK */}
+        <Sidebar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          collapsed={collapsed}
+          setCollapsed={setCollapsed}
+        />
 
-          {/* 1. SIDEBAR DECK */}
-          <Sidebar
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-            collapsed={collapsed}
-            setCollapsed={setCollapsed}
+        {/* MAIN OPERATIONAL WORKSPACE (TOPBAR + VIEWPORT) */}
+        <div className="flex flex-1 flex-col overflow-hidden relative">
+          {/* 2. TOP STATUS BAR */}
+          <Topbar
+            onSearch={handleSearch}
+            systemAlertsCount={2}
+            triggerSystemSimulate={handleTriggerSimulate}
+            theme={theme}
+            toggleTheme={toggleTheme}
           />
 
-          {/* MAIN OPERATIONAL WORKSPACE (TOPBAR + VIEWPORT) */}
-          <div className="flex flex-1 flex-col overflow-hidden relative">
-            {/* 2. TOP STATUS BAR */}
-            <Topbar
-              onSearch={handleSearch}
-              systemAlertsCount={2}
-              triggerSystemSimulate={handleTriggerSimulate}
-              theme={theme}
-              toggleTheme={toggleTheme}
-            />
-
-            {/* 3. SCROLLABLE ACTIVE LAYER VIEWPORT */}
-            <main className="flex-1 overflow-y-auto bg-transparent relative custom-scrollbar">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeTab}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -15 }}
-                  transition={{ duration: 0.25 }}
-                  className="h-full w-full"
-                >
-                  {renderViewContent()}
-                </motion.div>
-              </AnimatePresence>
-            </main>
-          </div>
+          {/* 3. SCROLLABLE ACTIVE LAYER VIEWPORT */}
+          <main className="flex-1 overflow-y-auto bg-transparent relative custom-scrollbar">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.25 }}
+                className="h-full w-full"
+              >
+                {renderViewContent()}
+              </motion.div>
+            </AnimatePresence>
+          </main>
         </div>
-      </SignedIn>
-    </>
+      </div>
+    </AuthProvider>
   );
 }
