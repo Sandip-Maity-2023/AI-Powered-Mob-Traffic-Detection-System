@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🏙️ SentraCity AI Command Center & Incident Prediction Engine
 
 ### Production Smart City Mission Control Powered by FastAPI, React 19, OpenCV, and Gradient Boosting Machine Learning
@@ -158,3 +159,6 @@ python backend/test_backend.py
 - `test_05_alerts_alarm_and_multi_agency_broadcasting`: **PASSED** (Emergency siren & multi-department dispatches)
 - `test_06_gps_location_tracking_and_fleet_dispatch`: **PASSED** (Live coordinates & unit dispatch)
 
+=======
+hello
+>>>>>>> defa98c2a3f79fa2468823b071c1efa8a607124a
