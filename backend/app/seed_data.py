@@ -82,10 +82,90 @@ def seed_database():
                     status="active",
                     ai_model="GradientBoosting Classifier + OpenCV",
                     fps=30.0
+                ),
+                Camera(
+                    id="CAM-UPLOAD-01",
+                    name="Tactical Video Ingest Channel 01",
+                    location="Command Center Video Ingest",
+                    sector="Sector 2 - Video Ops",
+                    latitude=12.9716,
+                    longitude=77.5946,
+                    status="active",
+                    ai_model="PyTorch MobileNetV2 + CNN-LSTM",
+                    fps=30.0
+                ),
+                Camera(
+                    id="CAM-UPLOAD-FILE",
+                    name="Tactical Video File Upload Terminal",
+                    location="Forensics Laboratory Node",
+                    sector="Sector 4 - Forensic Ingest",
+                    latitude=12.9740,
+                    longitude=77.5980,
+                    status="active",
+                    ai_model="PyTorch MobileNetV2 + CNN-LSTM",
+                    fps=30.0
+                ),
+                Camera(
+                    id="CAM-RECORDED-EDGE",
+                    name="Edge Recorded Surveillance Clip",
+                    location="Mobile Field Reconnaissance",
+                    sector="Sector 1 - Edge Stream",
+                    latitude=12.9720,
+                    longitude=77.5920,
+                    status="active",
+                    ai_model="PyTorch MobileNetV2 + CNN-LSTM",
+                    fps=30.0
+                ),
+                Camera(
+                    id="CAM-SIMULATED-01",
+                    name="Tactical Simulation Camera Node",
+                    location="Virtual Command Grid Sector 1",
+                    sector="Sector 1 - Synthetic Feed",
+                    latitude=12.9716,
+                    longitude=77.5946,
+                    status="active",
+                    ai_model="PyTorch MobileNetV2 + CNN-LSTM",
+                    fps=30.0
+                ),
+                Camera(
+                    id="CAM-LIVE-WEBCAM",
+                    name="Tactical Operator Live Webcam",
+                    location="Command Desk Live Ingest",
+                    sector="Sector 2 - Live Stream",
+                    latitude=12.9716,
+                    longitude=77.5946,
+                    status="active",
+                    ai_model="PyTorch MobileNetV2 + CNN-LSTM",
+                    fps=30.0
                 )
             ]
             db.add_all(cameras)
             db.commit()
+
+        # Ensure extra ingest cameras exist even if cameras table was previously created
+        existing_cam_ids = {c.id for c in db.query(Camera.id).all()}
+        extra_cams = [
+            ("CAM-UPLOAD-01", "Tactical Video Ingest Channel 01", "Command Center Video Ingest"),
+            ("CAM-UPLOAD-FILE", "Tactical Video File Upload Terminal", "Forensics Laboratory Node"),
+            ("CAM-RECORDED-EDGE", "Edge Recorded Surveillance Clip", "Mobile Field Reconnaissance"),
+            ("CAM-SIMULATED-01", "Tactical Simulation Camera Node", "Virtual Command Grid Sector 1"),
+            ("CAM-LIVE-WEBCAM", "Tactical Operator Live Webcam", "Command Desk Live Ingest"),
+            ("CAM-TACTICAL-01", "Tactical Camera AI Stream", "Operator Ingest"),
+        ]
+        for cid, cname, cloc in extra_cams:
+            if cid not in existing_cam_ids:
+                db.add(Camera(
+                    id=cid,
+                    name=cname,
+                    location=cloc,
+                    sector="Tactical Ingest",
+                    latitude=12.9716,
+                    longitude=77.5946,
+                    status="active",
+                    ai_model="PyTorch MobileNetV2 + CNN-LSTM",
+                    fps=30.0
+                ))
+        db.commit()
 
         # 2. Seed Emergency Patrol Units if empty
         if db.query(EmergencyUnit).count() == 0:

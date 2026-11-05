@@ -7,7 +7,7 @@ import {
 } from './types';
 import { INCIDENTS_DATA } from './data';
 
-const API_BASE = (import.meta as any).env?.VITE_API_BASE_URL || 'http://127.0.0.1:8000/api';
+const API_BASE = (import.meta as any).env?.VITE_API_BASE_URL || '/api';
 
 function getAuthHeaders(): Record<string, string> {
   const token = localStorage.getItem('sentracity_jwt_token');
@@ -166,12 +166,35 @@ export const apiClient = {
   },
 
   async uploadVideo(formData: FormData) {
-    const res = await fetch(`${API_BASE}/vision/upload-video`, {
-      method: 'POST',
-      body: formData
-    });
-    if (!res.ok) throw new Error('Video processing failed');
-    return await res.json();
+    const candidateUrls = [
+      `${API_BASE}/vision/upload-video`,
+      'http://127.0.0.1:8000/api/vision/upload-video',
+      'http://localhost:8000/api/vision/upload-video'
+    ];
+
+    let lastError: any = null;
+    for (const url of candidateUrls) {
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          body: formData
+        });
+        if (res.ok) {
+          return await res.json();
+        } else {
+          const errData = await res.json().catch(() => null);
+          const detail = errData?.detail || `Server error (${res.status})`;
+          throw new Error(detail);
+        }
+      } catch (err: any) {
+        lastError = err;
+        // If server responded with a 4xx/5xx error message, don't try other URLs, throw the real error!
+        if (err.message && !err.message.includes('Failed to fetch') && !err.message.includes('NetworkError') && !err.message.includes('Load failed')) {
+          throw err;
+        }
+      }
+    }
+    throw lastError || new Error('Cannot connect to backend server on port 8000.');
   },
 
   async getTrackingLocations(): Promise<{

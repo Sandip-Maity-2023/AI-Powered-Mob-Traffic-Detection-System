@@ -131,7 +131,7 @@ class PyTorchViolenceService:
     def predict_video_file(self, video_path: str) -> Dict[str, Any]:
         """
         Sample 8 uniform frames across the video and run inference via MobileNetV2 + CNN-LSTM
-        as implemented in t1.py.
+        as implemented in t1.py. Handles MP4, WebM, AVI, and live camera recordings robustly.
         """
         if not os.path.exists(video_path):
             raise FileNotFoundError(f"Video file not found: {video_path}")
@@ -142,43 +142,40 @@ class PyTorchViolenceService:
 
         total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
-        duration_sec = total_frames / fps if total_frames > 0 else 3.0
 
-        frames = []
-        if total_frames > 0:
-            indices = np.linspace(0, total_frames - 1, SEQUENCE_LENGTH).round().astype(int)
-            wanted = set(indices.tolist())
-            frame_idx = 0
-
-            while frame_idx <= indices[-1]:
-                ret, frame = cap.read()
-                if not ret:
-                    break
-                if frame_idx in wanted:
-                    tensor = self._preprocess_frame(frame)
-                    frames.append(tensor)
-                frame_idx += 1
-                if len(frames) == SEQUENCE_LENGTH:
-                    break
-        else:
-            for _ in range(SEQUENCE_LENGTH):
-                ret, frame = cap.read()
-                if not ret:
-                    break
-                frames.append(self._preprocess_frame(frame))
-
+        # Read frames sequentially (up to 300 frames) to handle WebM/MP4 with missing or corrupted frame count headers
+        raw_frames = []
+        max_capture = 300
+        while len(raw_frames) < max_capture:
+            ret, frame = cap.read()
+            if not ret or frame is None:
+                break
+            raw_frames.append(frame)
         cap.release()
 
-        # Handle short videos: pad with last frame
-        if len(frames) == 0:
+        actual_count = len(raw_frames)
+        duration_sec = actual_count / fps if actual_count > 0 else (total_frames / fps if total_frames > 0 else 3.0)
+
+        frames = []
+        if actual_count >= SEQUENCE_LENGTH:
+            # Uniformly select SEQUENCE_LENGTH (8) indices across all captured frames
+            indices = np.linspace(0, actual_count - 1, SEQUENCE_LENGTH).round().astype(int)
+            for idx in indices:
+                frames.append(self._preprocess_frame(raw_frames[idx]))
+        elif actual_count > 0:
+            for f in raw_frames:
+                frames.append(self._preprocess_frame(f))
+            while len(frames) < SEQUENCE_LENGTH:
+                frames.append(frames[-1].clone())
+        else:
+            # Fallback zero frames if video stream is empty
             frames = [torch.zeros(3, FRAME_SIZE, FRAME_SIZE) for _ in range(SEQUENCE_LENGTH)]
-        while len(frames) < SEQUENCE_LENGTH:
-            frames.append(frames[-1].clone())
+
         frames = frames[:SEQUENCE_LENGTH]
 
         # Stack into batch tensor (1, 8, 3, 128, 128)
         video_tensor = torch.stack(frames).unsqueeze(0).to(DEVICE)
-        return self._run_inference_on_tensor(video_tensor, duration_sec=duration_sec, total_frames=total_frames)
+        return self._run_inference_on_tensor(video_tensor, duration_sec=duration_sec, total_frames=actual_count)
 
     def predict_frame_sequence(self, camera_id: str, frame: np.ndarray) -> Dict[str, Any]:
         """

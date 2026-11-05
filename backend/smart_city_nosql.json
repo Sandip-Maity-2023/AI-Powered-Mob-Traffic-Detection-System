@@ -41,6 +41,12 @@
       "status": "verified",
       "_id": "5723d4ab-8b81-4d20-8db7-9f14f82181d5",
       "created_at": "2026-11-05T02:08:59.183243+00:00"
+    },
+    {
+      "test_metric": 42.5,
+      "status": "verified",
+      "_id": "55433ba6-b72d-4792-a0ec-66d1b5790a66",
+      "created_at": "2026-11-05T04:47:49.922521+00:00"
     }
   ],
   "incident_audit_trail": [
@@ -113,6 +119,16 @@
       "timestamp": "2026-11-05T02:08:59.401940+00:00",
       "_id": "c10b2a27-2437-48e0-b343-33e27bec6e94",
       "created_at": "2026-11-05T02:08:59.401940+00:00"
+    },
+    {
+      "action": "CREATE",
+      "incident_id": "INC-E551FD",
+      "type": "Crowd Flashpoint Alert",
+      "location": "Sector 2, Transit Concourse C",
+      "severity": "critical",
+      "timestamp": "2026-11-05T04:47:50.097741+00:00",
+      "_id": "3a54d21b-9271-47c2-9b5b-6320dd967dbf",
+      "created_at": "2026-11-05T04:47:50.097741+00:00"
     }
   ],
   "alert_telemetry": [
@@ -276,6 +292,50 @@
       ],
       "_id": "2e712a97-eb8b-45b7-8bf8-a6d80dc2d6f8",
       "created_at": "2026-11-05T02:08:59.421581+00:00"
+    },
+    {
+      "alert_id": "ALT-86C305",
+      "incident_id": "INC-V28465",
+      "title": "Test",
+      "message": "Test",
+      "severity": "warning",
+      "departments": [
+        "Traffic Police"
+      ],
+      "channels": [
+        "AUDIO_ALARM",
+        "SMS",
+        "PUSH_NOTIFICATION"
+      ],
+      "dispatched_at": "2026-11-05T04:35:24.010056+00:00",
+      "simulated_sms_receipts": [
+        "+1-555-ALERT-0"
+      ],
+      "_id": "ace8c22a-0697-4f97-a807-dc3c7cfe6171",
+      "created_at": "2026-11-05T04:35:24.010056+00:00"
+    },
+    {
+      "alert_id": "ALT-B0D885",
+      "incident_id": null,
+      "title": "HIGH PRIORITY: Traffic Congestion Gridlock",
+      "message": "Multiple vehicle stalls blocking Nexus Parkway.",
+      "severity": "warning",
+      "departments": [
+        "Traffic Police",
+        "Municipal Corporations"
+      ],
+      "channels": [
+        "AUDIO_ALARM",
+        "SMS",
+        "PUSH_NOTIFICATION"
+      ],
+      "dispatched_at": "2026-11-05T04:47:50.113628+00:00",
+      "simulated_sms_receipts": [
+        "+1-555-ALERT-0",
+        "+1-555-ALERT-1"
+      ],
+      "_id": "f756f601-4a3d-4c8a-8ae7-6915c42e6b22",
+      "created_at": "2026-11-05T04:47:50.113628+00:00"
     }
   ]
 }

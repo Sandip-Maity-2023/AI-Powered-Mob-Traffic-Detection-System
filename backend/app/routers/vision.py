@@ -72,10 +72,15 @@ def detect_live_frame(
 
         # Auto-record incident if high-confidence violence is detected
         if result.is_anomaly and result.violence_probability > 0.65:
+            # Validate camera_id foreign key
+            cam_exists = db.query(Camera).filter(Camera.id == request.camera_id).first()
+            valid_cam_id = request.camera_id if cam_exists else None
+
             existing = db.query(Incident).filter(
-                Incident.camera_id == request.camera_id,
+                Incident.camera_id == valid_cam_id,
                 Incident.status == "active"
-            ).first()
+            ).first() if valid_cam_id else None
+
             if not existing:
                 inc = Incident(
                     id=f"INC-V{uuid.uuid4().hex[:5].upper()}",
@@ -85,7 +90,7 @@ def detect_live_frame(
                     longitude=77.5946,
                     severity="critical" if result.violence_probability > 0.75 else "warning",
                     status="active",
-                    camera_id=request.camera_id,
+                    camera_id=valid_cam_id,
                     detector_name="PyTorch MobileNetV2 + CNN-LSTM (best_violence_model.pth)",
                     details=f"Violence detected with {int(result.violence_probability*100)}% probability. Motion Energy: {result.motion_energy}%",
                     ai_confidence=round(result.violence_probability * 100, 1),
@@ -127,14 +132,18 @@ async def upload_and_analyze_video(
         # 2. OpenCV Optical Flow & Motion Analysis
         cv_analysis = vision_service.process_video_file(file_path, camera_id=camera_id)
 
-        # Merge results prioritizing the fine-tuned CNN-LSTM model
-        violence_prob = max(pytorch_analysis["violence_probability"], cv_analysis["peak_violence_probability"])
-        is_violence = pytorch_analysis["is_violence"] or violence_prob >= 0.50
-        severity = pytorch_analysis["severity"] if is_violence else "normal"
-        class_name = pytorch_analysis["class_name"] if is_violence else "Normal Activity"
+        # Gold standard decision from PyTorch MobileNetV2 + CNN-LSTM model
+        violence_prob = pytorch_analysis["violence_probability"]
+        is_violence = pytorch_analysis["is_violence"]
+        severity = pytorch_analysis["severity"]
+        class_name = pytorch_analysis["class_name"]
 
         created_incident_id = None
         if auto_create_incident and is_violence:
+            # Validate camera_id to ensure foreign key integrity
+            cam_exists = db.query(Camera).filter(Camera.id == camera_id).first()
+            valid_cam_id = camera_id if cam_exists else None
+
             inc = Incident(
                 id=f"INC-V{uuid.uuid4().hex[:5].upper()}",
                 type=class_name,
@@ -143,10 +152,10 @@ async def upload_and_analyze_video(
                 longitude=77.5980,
                 severity=severity,
                 status="active",
-                camera_id=camera_id,
+                camera_id=valid_cam_id,
                 detector_name="MobileNetV2 + CNN-LSTM (best_violence_model.pth)",
-                details=f"{pytorch_analysis['alert_message']} Model confidence: {pytorch_analysis['confidence']}%.",
-                ai_confidence=pytorch_analysis["confidence"],
+                details=f"{pytorch_analysis.get('alert_message', 'Violence detected')} Model confidence: {pytorch_analysis.get('confidence', 95.0)}%.",
+                ai_confidence=pytorch_analysis.get("confidence", 95.0),
                 predicted_class=6 if severity == "critical" else 1,
                 class_name=class_name,
                 video_evidence_url=f"/uploads/{save_filename}"
@@ -172,6 +181,7 @@ async def upload_and_analyze_video(
             "filename": file.filename,
             "video_url": f"/uploads/{save_filename}",
             "pytorch_violence": pytorch_analysis,
+            "analysis": cv_analysis,
             "motion_analysis": {
                 "average_motion_energy": cv_analysis.get("average_motion_energy", 20.0),
                 "peak_violence_probability": cv_analysis.get("peak_violence_probability", 0.2),
